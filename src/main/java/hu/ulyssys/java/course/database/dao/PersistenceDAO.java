@@ -11,11 +11,11 @@ import java.util.List;
 public class PersistenceDAO<T> {
     private final Class<T> typeParameterClass;
 
+    private static final String PERSISTENCE_UNIT = "TestPersistence";
+
     public PersistenceDAO(Class<T> typeParameterClass) {
         this.typeParameterClass = typeParameterClass;
     }
-
-    private static final String PERSISTENCE_UNIT = "TestPersistence";
 
     private EntityManager createEntityManager() {
         return Persistence.createEntityManagerFactory(PERSISTENCE_UNIT).createEntityManager();
@@ -29,9 +29,17 @@ public class PersistenceDAO<T> {
         entityManager.close();
     }
 
+    public void update(T entity){
+        EntityManager entityManager = createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(entity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
     public List<T> findAll() {
         TypedQuery<T> query = createEntityManager().createQuery("select n from "
-                + typeParameterClass.getSimpleName() + " n" ,typeParameterClass);
+                + typeParameterClass.getSimpleName() + " n", typeParameterClass);
         return query.getResultList();
     }
 
