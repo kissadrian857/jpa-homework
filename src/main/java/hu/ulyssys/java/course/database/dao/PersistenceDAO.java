@@ -1,8 +1,5 @@
 package hu.ulyssys.java.course.database.dao;
 
-import hu.ulyssys.java.course.database.entity.Author;
-import hu.ulyssys.java.course.database.entity.BlogPost;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
